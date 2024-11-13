@@ -48,17 +48,25 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(height: 20),
-            Text('Font size: ${_fontSize.toInt()}'),
-            Slider(
-              value: _fontSize,
-              min: 10,
-              max: 100,
-              divisions: 90,
-              onChanged: (value) {
-                setState(() {
-                  _fontSize = value;
-                });
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Font size: ${_fontSize.toInt()}'),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Slider(
+                    value: _fontSize,
+                    min: 10,
+                    max: 100,
+                    divisions: 90,
+                    onChanged: (value) {
+                      setState(() {
+                        _fontSize = value;
+                      });
+                    },
+                  ),
+                ),
+              ],
             ),
             SizedBox(height: 20),
             ElevatedButton(
@@ -138,9 +146,8 @@ class PreviewScreen extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            _showConfirmationDialog(context, 3, () {
-              Navigator.pop(context);
-            });
+            Navigator.pop(context);
+            _showConfirmationDialog(context, 3, () {});
           },
         ),
       ),
@@ -158,17 +165,16 @@ class PreviewScreen extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    _showConfirmationDialog(context, 1, () {
-                    });
+                    Navigator.pop(context);
+                    _showConfirmationDialog(context, 1, () {});
                   },
                   child: Text('OK'),
                 ),
                 SizedBox(width: 20),
                 OutlinedButton(
                   onPressed: () {
-                    _showConfirmationDialog(context, 2, () {
-                      Navigator.pop(context);
-                    });
+                    Navigator.pop(context);
+                    _showConfirmationDialog(context, 2, () {});
                   },
                   child: Text('Cancel'),
                 ),
