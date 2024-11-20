@@ -70,9 +70,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (_textController.text.isNotEmpty) {
-                  Navigator.push(
+                  final result = await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => PreviewScreen(
@@ -81,6 +81,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   );
+
+                  // Показуємо діалог після повернення
+                  if (result == 'showDialog1') {
+                    _showConfirmationDialog(context, 1, () {});
+                  } else if (result == 'showDialog2') {
+                    _showConfirmationDialog(context, 2, () {});
+                  } else if (result == 'showDialog3') {
+                    _showConfirmationDialog(context, 3, () {});
+                  }
                 }
               },
               child: Text('Preview'),
@@ -90,13 +99,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-}
-
-class PreviewScreen extends StatelessWidget {
-  final String text;
-  final double fontSize;
-
-  PreviewScreen({required this.text, required this.fontSize});
 
   void _showConfirmationDialog(BuildContext context, int setting, VoidCallback onConfirm) {
     showDialog(
@@ -136,6 +138,13 @@ class PreviewScreen extends StatelessWidget {
         return "Unknown setting";
     }
   }
+}
+
+class PreviewScreen extends StatelessWidget {
+  final String text;
+  final double fontSize;
+
+  PreviewScreen({required this.text, required this.fontSize});
 
   @override
   Widget build(BuildContext context) {
@@ -146,8 +155,7 @@ class PreviewScreen extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
-            _showConfirmationDialog(context, 3, () {});
+            Navigator.pop(context, 'showDialog3');
           },
         ),
       ),
@@ -165,16 +173,14 @@ class PreviewScreen extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
-                    _showConfirmationDialog(context, 1, () {});
+                    Navigator.pop(context, 'showDialog1');
                   },
                   child: Text('OK'),
                 ),
                 SizedBox(width: 20),
                 OutlinedButton(
                   onPressed: () {
-                    Navigator.pop(context);
-                    _showConfirmationDialog(context, 2, () {});
+                    Navigator.pop(context, 'showDialog2');
                   },
                   child: Text('Cancel'),
                 ),
